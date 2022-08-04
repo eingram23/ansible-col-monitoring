@@ -1,0 +1,56 @@
+---
+- name: Deploy grafana/prometheus containers
+  hosts: "{{ hostvar|default([]) }}"
+  gather_facts: false
+  become: true
+  become_method: sudo
+
+  tasks:
+
+    - name: Create prometheus folder
+      ansible.builtin.file:
+        path: /opt/prometheus
+        state: directory
+        mode: '0755'
+        owner: poduser
+        group: poduser
+
+    - name: Copy prometheus.yml to remote server
+      ansible.builtin.copy:
+        src: ./roles/prometheus/files/prometheus.yml
+        dest: /opt/prometheus/prometheus.yml
+        mode: '0644'
+        owner: poduser
+        group: poduser
+
+    - name: Open firewall ports
+      ansible.posix.firewalld:
+        port: "{{ item }}"
+        zone: public
+        permanent: true
+        state: enabled
+      loop:
+        - 9091/tcp
+        - 3000/tcp
+        - 9272/tcp
+      notify:
+        - Reload firewalld
+
+    - name: Create pod and containers
+      ansible.builtin.include_role:
+        name: "{{ item }}"
+        apply:
+          become: true
+          become_user: poduser
+          become_method: sudo
+      with_items:
+        - create_pod
+        - grafana
+        - prometheus
+        - vmware_exporter
+
+  handlers:
+    - name: Reload firewalld
+      ansible.builtin.systemd:
+        name: firewalld
+        state: reloaded
