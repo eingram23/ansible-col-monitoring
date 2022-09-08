@@ -38,16 +38,18 @@
 
     - name: Create pod and containers
       ansible.builtin.include_role:
-        name: "{{ item }}"
+        name: "{{ pod_role_item }}"
         apply:
           become: true
           become_user: poduser
           become_method: sudo
-      with_items:
+      loop:
         - create_pod
         - grafana
         - prometheus
         - vmware_exporter
+      loop_control:
+        loop_var: pod_role_item
 
   handlers:
     - name: Reload firewalld
