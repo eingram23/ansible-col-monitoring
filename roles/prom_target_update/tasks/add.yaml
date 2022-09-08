@@ -8,7 +8,7 @@
   when: hostvar is defined 
   notify: Restart prometheus container
 
-- name: Add entry to prometheus.yml (from new_build)
+- name: Add entry(s) to prometheus.yml (from project)
   ansible.builtin.lineinfile:
     path: /opt/prometheus/prometheus.yml
     insertafter: '      - targets: \[''localhost:9100''\]'

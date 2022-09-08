@@ -1,5 +1,5 @@
 ---
-- name: Remove entry to prometheus.yml
+- name: Remove entry from prometheus.yml
   ansible.builtin.lineinfile:
     path: /opt/prometheus/prometheus.yml
     insertafter: '      - targets: \[''localhost:9100''\]'
@@ -8,7 +8,7 @@
   when: hostvar is defined 
   notify: Restart prometheus container
 
-- name: Add entry to prometheus.yml (from new_build)
+- name: Remove entry from prometheus.yml (from project)
   ansible.builtin.lineinfile:
     path: /opt/prometheus/prometheus.yml
     insertafter: '      - targets: \[''localhost:9100''\]'
