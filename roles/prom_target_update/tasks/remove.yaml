@@ -2,7 +2,6 @@
 - name: Remove entry from prometheus.yml
   ansible.builtin.lineinfile:
     path: /opt/prometheus/prometheus.yml
-    insertafter: '      - targets: \[''localhost:9100''\]'
     regexp: '      - targets: \[''{{ hostvar }}:9100''\]'
     state: absent
   when: hostvar is defined 
@@ -11,7 +10,6 @@
 - name: Remove entry from prometheus.yml (from project)
   ansible.builtin.lineinfile:
     path: /opt/prometheus/prometheus.yml
-    insertafter: '      - targets: \[''localhost:9100''\]'
     regexp: '      - targets: \[''{{ prom_line_item }}.{{ dns_suffix_list[0] }}:9100''\]'
     state: absent
   loop: "{{ vm_name_list }}"
