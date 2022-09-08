@@ -35,7 +35,7 @@
 
 - name: Allow node_exporter through firewall
   include_role:
-    name: firewall
+    name: eingram23.homelab.firewall
   loop:
     - "9100/tcp"
   loop_control:
