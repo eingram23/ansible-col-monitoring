@@ -1,0 +1,12 @@
+---
+# vars file for install_windows_exporter
+msi_file: windows_exporter-0.19.0-amd64.msi
+collectors:
+  - cpu
+  - cs
+  - logical_disk
+  - os
+  - system
+  - net
+  - service
+log_level: warn

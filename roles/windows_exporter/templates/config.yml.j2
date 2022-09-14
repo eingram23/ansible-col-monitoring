@@ -1,7 +1,8 @@
 collectors:
-  enabled: cpu,cs,logical_disk,os,system,net,service
+  enabled: {{ collectors|join(',') }}
 collector:
   service:
     services-where: "Name='windows_exporter'"
 log:
-  level: warn
+  level: {{ log_level }}
+  
