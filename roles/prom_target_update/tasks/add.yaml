@@ -3,8 +3,8 @@
   ansible.builtin.lineinfile:
     path: /opt/prometheus/prometheus.yml
     insertafter: '      - targets: \[''localhost:9100''\]'
-    regexp: '      - targets: \[''{{ hostvar }}:9100''\]'
-    line: "      - targets: ['{{ hostvar }}:9100']"
+    regexp: '      - targets: \[''{{ hostvar }}:{{ prom_port }}''\]'
+    line: "      - targets: ['{{ hostvar }}:{{ prom_port }}']"
   when: hostvar is defined 
   notify: Restart prometheus container
 
@@ -12,8 +12,8 @@
   ansible.builtin.lineinfile:
     path: /opt/prometheus/prometheus.yml
     insertafter: '      - targets: \[''localhost:9100''\]'
-    regexp: '      - targets: \[''{{ prom_line_item }}.{{ dns_suffix_list[0] }}:9100''\]'
-    line: "      - targets: ['{{ prom_line_item }}.{{ dns_suffix_list[0] }}:9100']"
+    regexp: '      - targets: \[''{{ prom_line_item }}.{{ dns_suffix_list[0] }}:{{ prom_port }}''\]'
+    line: "      - targets: ['{{ prom_line_item }}.{{ dns_suffix_list[0] }}:{{ prom_port }}']"
   loop: "{{ vm_name_list }}"
   loop_control:
     loop_var: prom_line_item
