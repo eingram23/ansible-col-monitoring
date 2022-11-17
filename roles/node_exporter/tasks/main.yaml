@@ -9,7 +9,7 @@
 
 - name: Extract tar
   ansible.builtin.unarchive:
-    src: https://github.com/prometheus/node_exporter/releases/download/{{ node_exporter_ver }}/node_exporter-{{ node_exporter_ver }}.linux-amd64.tar.gz
+    src: https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_ver }}/node_exporter-{{ node_exporter_ver }}.linux-amd64.tar.gz
     dest: ~/
     remote_src: true
 
