@@ -36,7 +36,7 @@
 
 - name: Allow node_exporter through firewall
   ansible.builtin.include_role:
-    name: eingram23.homelab.firewall
+    name: eingram23.linux.firewall
   vars:
     fw_port:
       - "9100/tcp"
